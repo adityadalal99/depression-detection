@@ -30,4 +30,4 @@ if __name__ == '__main__':
     auth.set_access_token(access_token, access_secret)
     stream = Stream(auth, l)
 
-    stream.filter(locations = [-6.38,49.87,1.77,55.81])#track=['depression', 'anxiety', 'mental health', 'suicide', 'stress', 'sad', 'kill'])
+    stream.filter(locations = [8.4,37.6,68.7,97.25])#track=['depression', 'anxiety', 'mental health', 'suicide', 'stress', 'sad', 'kill'])
