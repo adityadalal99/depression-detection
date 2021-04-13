@@ -15,12 +15,14 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn import metrics
+
 #from sklearn.metrics import roc_auc_score
 
 tweets_data = []
 x = []
 y = []
 vectorizer = CountVectorizer(stop_words='english')
+dtree = None
 
 def retrieveTweet(data_url):
 
@@ -102,6 +104,7 @@ def nbTrain():
 def datree():
     from sklearn import tree
     start_timedt = time.time()
+    print(x)
     train_featurestree = vectorizer.fit_transform(x)
     actual1 = y
     test_features1 = vectorizer.transform(x)
@@ -181,7 +184,8 @@ def runall():
     Tsvm()
     knN()
     RanFo()
-    
+
+
 def datreeINPUT(inputtweet):
     from sklearn import tree
     train_featurestree = vectorizer.fit_transform(x)
@@ -192,6 +196,7 @@ def datreeINPUT(inputtweet):
     
     inputdtree= vectorizer.transform([inputtweet])
     predictt = dtree.predict(inputdtree)
+
     
     if predictt == 1:
         predictt = "Positive"
@@ -206,9 +211,14 @@ def datreeINPUT(inputtweet):
     print(predictt)
     print("*****************")
 
+
+
 runall()
 
 print("Input your tweet : ")
 inputtweet = input()
 
 datreeINPUT(inputtweet)
+
+import pickle
+pickle.dump(dtree, open('model.pkl', 'wb'))
