@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on the day we all start to love our self.
-
-@author: Nikie Jo Deocampo
-"""
-
 import json
 import pandas as pd
 import time

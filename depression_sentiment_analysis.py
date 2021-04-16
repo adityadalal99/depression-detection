@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on the day we all start to love our self.
-
-@author: Nikie Jo Deocampo
-"""
-
 import json
 import pandas as pd
 import time
@@ -38,10 +30,13 @@ def retrieveTweet(data_url):
              
 def retrieveProcessedData(Pdata_url):
     sent = pd.read_excel(Pdata_url)
-    for i in range(len(tweets_data)):
-        if tweets_data[i]['id']==sent['id'][i]:
+    print(len(sent))
+    print(len(tweets_data))
+    for i in range(len(sent)):
+        if tweets_data[i]['id'] == sent['id'][i]:
             x.append(tweets_data[i]['text'])
             y.append(sent['sentiment'][i])
+
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
@@ -177,12 +172,12 @@ def RanFo():
 
 
 def runall():     
-    retrieveTweet('data/newtweetdata.txt')
-    retrieveProcessedData('processed_data/newoutput.xlsx')
+    retrieveTweet('data/tweetdata.txt')
+    retrieveProcessedData('processed_data/output.xlsx')
     nbTrain()
     datree()
     Tsvm()
-    knN()
+    #knN()
     RanFo()
 
 
@@ -200,25 +195,39 @@ def datreeINPUT(inputtweet):
     
     if predictt == 1:
         predictt = "Positive"
+        print("\n*****************")
+        print(predictt)
+        print("*****************")
+        return -1
     elif predictt == 0:
         predictt = "Neutral"
+        print("\n*****************")
+        print(predictt)
+        print("*****************")
+        return 0
     elif predictt == -1:
         predictt = "Negative"
+        print("\n*****************")
+        print(predictt)
+        print("*****************")
+        return 1
     else:
         print("Nothing")
-    
-    print("\n*****************")
-    print(predictt)
-    print("*****************")
 
 
+if __name__ == '__main__':
+    runall()
+    import pickle
+    pickle.dump(dtree, open('model.pkl', 'wb'))
 
-runall()
 
-print("Input your tweet : ")
-inputtweet = input()
+def initial_run():
+    runall()
 
-datreeINPUT(inputtweet)
 
-import pickle
-pickle.dump(dtree, open('model.pkl', 'wb'))
+def get_score_of_tweet(tweet):
+    #print("Input your tweet : ")
+    #input_tweet = input()
+    return datreeINPUT(tweet)
+
+
