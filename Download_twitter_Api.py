@@ -1,21 +1,30 @@
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+from dotenv import load_dotenv
+import os
+import json
+
+import db_queries
+
+load_dotenv()
 
 
-consumer_key = 'd7RJDeV6M1TdKnXXdY29Zud5O'
-consumer_secret = '8LV35luiAco2mBnQ1W6erOnA8cbMwVgxblfHjP5zk5dmAXGwd6'
-access_token = '2206645458-9qlftwQ5eiovob7GCp21VrAoFRXi7AJLGt5ts3O'
-access_secret = 'Oc9ZKbHSL0reJhZYcU0Vk9UERbVvsTwerIfDUTwiRNGYf'
-
+consumer_key = os.getenv('CONSUMER_KEY')
+consumer_secret = os.getenv('CONSUMER_SECRET')
+access_token = os.getenv('ACCESS_TOKEN')
+access_secret = os.getenv('ACCESS_SECRET')
 
 
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        with open('data/newtweetdata.txt','a') as tf:
+        with open('data/tweetdata.txt','a') as tf:
             tf.write(data)
-        print(data)
+        data = json.loads(data)
+        db_queries.check_user(data['user']['id'], data['place']['bounding_box']['coordinates'])
+        db_queries.insert_tweet_with_details(data['user']['id'], data['id'])
+        print(json.dumps(data))
         return True
 
     def on_error(self, status):
@@ -23,11 +32,8 @@ class StdOutListener(StreamListener):
 
 
 if __name__ == '__main__':
-
-
     l = StdOutListener()
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_secret)
     stream = Stream(auth, l)
-
-    stream.filter(locations = [68.7,8.4,97.25,37.6])#track=['depression', 'anxiety', 'mental health', 'suicide', 'stress', 'sad', 'kill'])
+    stream.filter(languages=["en"], locations = [68.7,8.4,97.25,37.6])#track=['depression', 'anxiety', 'mental health', 'suicide', 'stress', 'sad', 'kill'])

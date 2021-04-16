@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on the day we all start to love our self.
-
-@author: Nikie Jo Deocampo
-"""
-
 import json
 import pandas as pd
 import time
@@ -22,6 +14,7 @@ x = []
 y = []
 vectorizer = CountVectorizer(stop_words='english')
 
+
 def retrieveTweet(data_url):
 
     tweets_data_path = data_url
@@ -33,13 +26,14 @@ def retrieveTweet(data_url):
         except:
             continue
 
-             
+
 def retrieveProcessedData(Pdata_url):
     sent = pd.read_excel(Pdata_url)
     for i in range(len(tweets_data)):
         if tweets_data[i]['id']==sent['id'][i]:
             x.append(tweets_data[i]['text'])
             y.append(sent['sentiment'][i])
+
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
@@ -90,6 +84,7 @@ def nbTrain():
     print(" Completion Speed", round((time.time() - start_timenb),5))
     print()
 
+
 def datree():
     from sklearn import tree
     start_timedt = time.time()
@@ -108,6 +103,7 @@ def datree():
     print(" Completion Speed", round((time.time() - start_timedt),5))
     print()
 
+
 def Tsvm():
     from sklearn.svm import SVC
     start_timesvm = time.time()
@@ -124,6 +120,7 @@ def Tsvm():
     print("Support vector machine Accuracy : \n", svc, "%")
     print(" Completion Speed", round((time.time() - start_timesvm),5))
     print()
+
 
 def knN():
     from sklearn.neighbors import KNeighborsClassifier
@@ -143,6 +140,7 @@ def knN():
     print("Kneighborsclassifier Accuracy : \n", kn, "%")
     print(" Completion Speed", round((time.time() - start_timekn),5))
     print()
+
 
 def RanFo():
     from sklearn.ensemble import RandomForestClassifier
@@ -172,7 +170,8 @@ def runall():
     Tsvm()
     knN()
     RanFo()
-    
+
+
 def datreeINPUT(inputtweet):
     from sklearn import tree
     train_featurestree = vectorizer.fit_transform(x)

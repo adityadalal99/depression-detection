@@ -1,17 +1,13 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jul 26 16:34:13 2018
-
-@author: Nikie Jo Deocampo
-"""
 import json
 import csv
+import nltk
+nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 import string
 import re
 import time
 import pandas as pd
+
 
 
 tweets_data = []
@@ -82,11 +78,7 @@ def addpolarity():
     print("===========================")
     print("Processing please wait...")
     print("===========================\n\n")
-    
-    
-    
     for j in x:
- 
             tweet_token = j
             token = word_tokenize(tweet_token)
             sumnum = 0
@@ -160,7 +152,7 @@ def savetoxlsx():
     
 
 def runall():
-    getdata('data/newtweetdata.txt')
+    getdata('data/tweetdata.txt')
     readdict('data/dictionary.tsv')
     
 
